@@ -44,7 +44,8 @@
       "Bash(node _shots2.mjs \"C:/Users/AYUSHI~1/AppData/Local/Temp/claude/c--Users-Ayushi-Panchal-ujjain-poojan/709c7846-eaf9-4481-bda5-9f4403d96968/scratchpad/shots\")",
       "Bash(rm -f _shots.mjs _shots2.mjs)",
       "Bash(node _mobile.mjs \"C:/Users/AYUSHI~1/AppData/Local/Temp/claude/c--Users-Ayushi-Panchal-ujjain-poojan/709c7846-eaf9-4481-bda5-9f4403d96968/scratchpad/shots\")",
-      "Bash(rm -f _shots.mjs _mobile.mjs)"
+      "Bash(rm -f _shots.mjs _mobile.mjs)",
+      "PowerShell(try { $r = Invoke-WebRequest \"http://localhost:3000/poojas/\" -UseBasicParsing -TimeoutSec 10; \"dev server responding: $\\($r.StatusCode\\)\" } catch { \"dev server not responding — will need a restart to hot-reload these changes\" })"
     ]
   }
 }

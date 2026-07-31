@@ -20,6 +20,15 @@ export default function PoojaCard({ pooja }: { pooja: Pooja }) {
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-cream-deep bg-cream shadow-[0_1px_2px_rgba(61,15,16,0.05)] transition-[transform,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-saffron/35 hover:shadow-[0_24px_50px_-20px_rgba(61,15,16,0.35)]">
+      {/* The whole card is the click target — one stretched link under
+          everything, `z-0` against the `relative z-10` action bar below so
+          the WhatsApp button stays independently clickable on top of it. */}
+      <Link
+        href={`/pooja/${pooja.slug}/`}
+        aria-label={`View details for ${pooja.nameEn}`}
+        className="absolute inset-0 z-0"
+      />
+
       {/* ── image ── */}
       <div className="relative aspect-[16/10] overflow-hidden">
         {img && (
@@ -47,12 +56,10 @@ export default function PoojaCard({ pooja }: { pooja: Pooja }) {
         {/* Name sits on the image — buys back the vertical space the photo costs. */}
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
           <h3>
-            <Link href={`/pooja/${pooja.slug}/`} className="before:absolute before:inset-0">
-              <span lang="hi" className="block text-[1.35rem] leading-tight text-cream">
-                {pooja.nameHi}
-              </span>
-              <span className="kicker mt-1.5 block text-saffron-light">{pooja.nameEn}</span>
-            </Link>
+            <span lang="hi" className="block text-[1.35rem] leading-tight text-cream">
+              {pooja.nameHi}
+            </span>
+            <span className="kicker mt-1.5 block text-saffron-light">{pooja.nameEn}</span>
           </h3>
         </div>
       </div>
@@ -88,16 +95,22 @@ export default function PoojaCard({ pooja }: { pooja: Pooja }) {
             <span className="sr-only">{formatPrice(pooja.priceFrom, pooja.priceTo)}</span>
           </div>
 
-          {/* relative z-10 lifts these above the title's stretched ::before */}
+          {/* relative z-10 lifts these above the card-wide stretched link */}
           <div className="relative z-10 flex items-center gap-2">
             <WhatsAppButton
               href={getWhatsAppURL(pooja.nameEn, pooja.nameHi)}
               label="Book"
               size="sm"
             />
+            {/* Same destination as the card-wide link, kept as a real <Link>
+                (not a decorative span) so this exact pixel area still
+                navigates rather than becoming a dead click zone — but
+                hidden from the accessibility tree so screen readers don't
+                hear the same "View details" link announced twice. */}
             <Link
               href={`/pooja/${pooja.slug}/`}
-              aria-label={`View details for ${pooja.nameEn}`}
+              aria-hidden="true"
+              tabIndex={-1}
               className="group/d inline-flex h-9 w-9 items-center justify-center rounded-full border border-maroon/20 text-maroon transition-colors duration-400 hover:border-maroon-deep hover:bg-maroon-deep hover:text-cream"
             >
               <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/d:translate-x-0.5" />

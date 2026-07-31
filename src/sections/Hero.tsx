@@ -11,10 +11,10 @@ import { getWhatsAppURL } from '@/lib/whatsapp'
 import { EASE_SACRED } from '@/components/motion/primitives'
 
 /**
- * THE AWAKENING — mist dissolves off the temple as you scroll. Scroll back up
- * and it closes again. The whole overlay is choreographed against video
- * progress rather than viewport position, so the copy and the image move as
- * one piece.
+ * THE OFFERING — the kalash pulls back to the full samagri spread as you
+ * scroll. Scroll back up and it closes in again. The whole overlay is
+ * choreographed against video progress rather than viewport position, so the
+ * copy and the image move as one piece.
  */
 function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
   // Title clears out as the mist does.
@@ -50,7 +50,7 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
             the Devanagari is the brand, the roman is the translation. */}
         <motion.p
           lang="hi"
-          className="mb-5 text-2xl text-saffron-light md:mb-7 md:text-4xl"
+          className="mb-5 text-2xl text-saffron-light drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)] md:mb-7 md:text-4xl"
           initial={{ opacity: 0, y: 22, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1.2, delay: 0.85, ease: EASE_SACRED }}
@@ -58,8 +58,12 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
           उज्जैन पूजन
         </motion.p>
 
+        {/* A flat cream fill read as "plain" against footage this warm and
+            busy — a cream-to-gold gradient plus a real drop shadow gives the
+            wordmark the engraved, firelit look the rest of the page has,
+            and keeps it legible over bright highlights in the frame. */}
         <motion.h1
-          className="wordmark text-cream"
+          className="wordmark bg-gradient-to-b from-cream via-cream to-saffron-light bg-clip-text text-transparent drop-shadow-[0_6px_26px_rgba(0,0,0,0.55)]"
           style={{ fontSize: 'clamp(2.6rem, 9vw, 8rem)' }}
           initial={{ opacity: 0, y: 40, filter: 'blur(14px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -72,7 +76,7 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
             different voice from the carved-stone wordmark above it, so the
             two don't blur into one texture. */}
         <motion.p
-          className="mt-6 max-w-2xl text-balance px-4 font-[family-name:var(--font-accent)] font-semibold leading-[1.25] text-cream md:mt-7"
+          className="mt-6 max-w-2xl text-balance px-4 font-[family-name:var(--font-accent)] font-semibold leading-[1.25] text-cream drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)] md:mt-7"
           style={{ fontSize: 'clamp(1.15rem, 3.4vw, 2rem)' }}
           initial={{ opacity: 0, y: 26, filter: 'blur(10px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -98,7 +102,7 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
           />
           {/* Tighter tracking below sm — at 0.22em this string broke
               "DIVINE / UJJAIN" across lines on a 390px screen. */}
-          <span className="kicker text-balance px-4 tracking-[0.13em] text-cream/75 sm:tracking-[0.22em]">
+          <span className="kicker text-balance px-4 tracking-[0.13em] text-cream/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] sm:tracking-[0.22em]">
             Sacred Rituals · Verified Pandits · Divine Ujjain
           </span>
         </motion.div>
@@ -114,10 +118,10 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
         </motion.div>
       </motion.div>
 
-      {/* ── the promise, revealed once the temple is clear ── */}
+      {/* ── the promise, revealed once the spread is fully in view ── */}
       <motion.p
         style={{ opacity: lineOpacity, y: lineY }}
-        className="display absolute text-cream italic"
+        className="display absolute text-cream italic drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
         aria-hidden
       >
         <span style={{ fontSize: 'clamp(2rem, 5.5vw, 4.5rem)' }}>
@@ -128,7 +132,7 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
       {/* ── scroll cue ── */}
       <motion.div
         style={{ opacity: chevronOpacity }}
-        className="absolute bottom-10 flex flex-col items-center gap-2 text-cream/70"
+        className="absolute bottom-10 flex flex-col items-center gap-2 text-cream/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
         aria-hidden
       >
         <span className="kicker text-[0.625rem]">Scroll</span>
@@ -143,18 +147,27 @@ function HeroOverlay({ progress }: { progress: MotionValue<number> }) {
   )
 }
 
+/* The kalash frame is bright, warm and detailed end to end — unlike the misty
+   sky it replaces, there's no naturally dark region for the text to sit in.
+   A flat top/bottom gradient wasn't enough; this layers a radial vignette
+   centred on the text column under a full-frame wash so the copy reads at
+   every scroll position, not just near the edges. */
+const HERO_SCRIM =
+  'radial-gradient(ellipse 65% 55% at 50% 44%, rgba(15,10,8,0.8) 0%, rgba(15,10,8,0.5) 55%, rgba(15,10,8,0.22) 100%), ' +
+  'linear-gradient(to bottom, rgba(15,10,8,0.42) 0%, rgba(15,10,8,0.28) 30%, rgba(15,10,8,0.58) 100%)'
+
 export default function Hero() {
   return (
     <section id="hero" aria-label="Ujjain Pujan — sacred pooja booking in Ujjain">
       <ScrollVideo
-        src={VIDEOS.templeDawn}
-        webm={VIDEOS_WEBM.templeDawn}
-        poster={POSTERS.templeDawn}
-        ariaLabel={POSTER_ALT.templeDawn}
+        src={VIDEOS.samagri}
+        webm={VIDEOS_WEBM.samagri}
+        poster={POSTERS.samagri}
+        ariaLabel={POSTER_ALT.samagri}
         scrollHeight="350vh"
         mobileScrollHeight="200vh"
         priority
-        scrim="linear-gradient(to bottom, rgba(20,13,10,0.5) 0%, rgba(20,13,10,0.34) 45%, rgba(20,13,10,0.62) 100%)"
+        scrim={HERO_SCRIM}
       >
         {(progress) => <HeroOverlay progress={progress} />}
       </ScrollVideo>

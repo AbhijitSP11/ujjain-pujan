@@ -4,9 +4,9 @@ import { motion, useTransform, type MotionValue } from 'motion/react'
 import ScrollVideo from '@/components/ScrollVideo'
 import { VIDEOS, VIDEOS_WEBM, POSTERS, POSTER_ALT } from '@/lib/assets'
 
-/* The kalash frame is bright and busy — cream type needs a heavy, wide scrim
-   on the text side or the heading vanishes into the mango leaves. */
-const SAMAGRI_SCRIM =
+/* Heavy, wide scrim on the text side so the heading holds up even once the
+   mist clears and the temple is lit gold behind it. */
+const TEMPLE_SCRIM =
   'linear-gradient(to right, rgba(20,13,10,0.9) 0%, rgba(20,13,10,0.72) 38%, rgba(20,13,10,0.25) 72%, transparent 100%)'
 
 const DETAILS = [
@@ -46,7 +46,7 @@ function Detail({
 }
 
 /**
- * THE SAMAGRI — the kalash pulls back to the full spread. The first quarter
+ * THE VIDHI — mist dissolves off the temple as you scroll. The first quarter
  * carries no text at all; the close returns to silence. The devotion is the
  * argument here, not the copy.
  */
@@ -89,13 +89,13 @@ export default function SacredPrep() {
   return (
     <section id="sacred-preparation" aria-label="The sacred preparation behind every pooja">
       <ScrollVideo
-        src={VIDEOS.samagri}
-        webm={VIDEOS_WEBM.samagri}
-        poster={POSTERS.samagri}
-        ariaLabel={POSTER_ALT.samagri}
+        src={VIDEOS.templeDawn}
+        webm={VIDEOS_WEBM.templeDawn}
+        poster={POSTERS.templeDawn}
+        ariaLabel={POSTER_ALT.templeDawn}
         scrollHeight="300vh"
         mobileScrollHeight="200vh"
-        scrim={SAMAGRI_SCRIM}
+        scrim={TEMPLE_SCRIM}
       >
         {(progress) => <SamagriOverlay progress={progress} />}
       </ScrollVideo>

@@ -1,0 +1,6 @@
+# Raw, un-encoded source videos — only public/videos/optimized/* is ever
+# referenced at runtime (see src/lib/assets.ts). Keeping the ~30MB originals
+# out of the deploy upload doesn't change the site at all.
+public/videos/ujjain-temple-dawn.mp4
+public/videos/ujjain-shipra-ghats.mp4
+public/videos/ujjain-pooja-samagri.mp4
