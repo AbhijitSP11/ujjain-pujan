@@ -1,0 +1,294 @@
+@import 'tailwindcss';
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM FACES
+   Drop the four .woff2 files into public/fonts/ and they take over
+   automatically. Until then each stack falls through to its Google
+   counterpart (wired up in layout.tsx via next/font), so the type scale,
+   rhythm and colour never change — only the letterforms do.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@font-face {
+  font-family: 'Catilya';
+  src: url('/fonts/Catilya-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Quorele';
+  src: url('/fonts/Quorele-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Graven';
+  src: url('/fonts/Graven-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Conra';
+  src: url('/fonts/Conra-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* ── paper ───────────────────────────────────────────────────────────── */
+  --color-cream: #faf6ec;
+  --color-cream-dark: #f2ead6;
+  --color-cream-deep: #e8dcc2; /* hairlines, inset panels */
+
+  /* ── ink. Full-strength by default; the /70 wash everywhere was what
+        made the old build read flat and low-contrast. ─────────────────── */
+  --color-brown-dark: #241611; /* body copy */
+  --color-brown-warm: #5a4636; /* secondary copy — 7:1 on cream */
+
+  /* ── gold. `saffron` is a DISPLAY colour (2.9:1) — large type, rules and
+        ornament only. Anything under ~24px on cream must use gold-deep,
+        which clears 5.5:1. ───────────────────────────────────────────── */
+  --color-saffron: #d4920b;
+  --color-saffron-light: #f0c040;
+  --color-saffron-deep: #b87a08;
+  --color-gold-deep: #8a5d07;
+
+  --color-maroon: #5c1a1b;
+  --color-maroon-light: #7a2e2e;
+  --color-maroon-deep: #3d0f10;
+  --color-copper: #b87333;
+
+  /* Sindoor/vermillion — the red-orange of kumkum, the pigment a tilak is
+     actually made from. Reserved for the one or two words in a section
+     that need to read as urgent/actionable, not general emphasis — using
+     it everywhere would flatten it into just another accent. */
+  --color-sindoor: #e4432b;
+  --color-sindoor-light: #ff6a45;
+
+  /* ── night. Dark bands break up the cream and give the page rhythm. ─── */
+  --color-night: #17100d;
+  --color-night-soft: #241a15;
+  --color-footer-dark: #120d0a;
+
+  --color-whatsapp: #25d366;
+  /* Must be clearly darker than the base or the hover sweep is invisible —
+     #1EBE57 was so close to #25D366 that the animation read as nothing. */
+  --color-whatsapp-dark: #0b8043;
+
+  /* ── type ────────────────────────────────────────────────────────────
+     Cinzel        inscriptional Roman caps — reads as carved temple stone
+     Cormorant     high-contrast old-style — the editorial voice
+     Jost          geometric — tracked uppercase labels
+     Karla         warm grotesque — body copy that stays readable small
+     ─────────────────────────────────────────────────────────────────── */
+  --font-hero: 'Catilya', var(--font-cinzel), 'Cinzel', Georgia, serif;
+  --font-heading: 'Quorele', var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-label: 'Graven', var(--font-jost), 'Jost', system-ui, sans-serif;
+  --font-body: 'Conra', var(--font-karla), 'Karla', system-ui, sans-serif;
+  /* Attention-grabbing hero copy only — a heavy modern grotesque that
+     contrasts deliberately with the inscriptional wordmark and editorial
+     serif headings used everywhere else. */
+  --font-accent: var(--font-bricolage), 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-hindi: var(--font-tiro), 'Tiro Devanagari Hindi', 'Noto Sans Devanagari', serif;
+
+  --ease-sacred: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-veil: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis owns scrolling */
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-brown-dark);
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* MUST be `clip`, not `hidden`. `hidden` turns body into a scroll
+       container, which makes every descendant `position: sticky` stick to
+       body instead of the viewport — that silently kills all three
+       ScrollVideo sections. `clip` suppresses the same overflow without
+       creating a scrollport. */
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-saffron);
+    color: var(--color-cream);
+  }
+
+  [lang='hi'] {
+    font-family: var(--font-hindi);
+    line-height: 1.7;
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Native scrollbar — thin, saffron */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream-dark);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-saffron);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-saffron-deep);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@utility hairline {
+  border-color: color-mix(in srgb, var(--color-maroon) 12%, transparent);
+}
+
+@utility hairline-cream {
+  border-color: color-mix(in srgb, var(--color-cream) 18%, transparent);
+}
+
+/* Uppercase tracked label — the Graven/Jost voice, used everywhere */
+@utility kicker {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@utility kicker-lg {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* The brand wordmark. Cinzel is drawn for caps — it needs the extra
+   tracking and it must never be set at body sizes. */
+@utility wordmark {
+  font-family: var(--font-hero);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Display headings. Cormorant runs small and light for its point size, so
+   it gets a tighter leading and a heavier weight than a normal serif. */
+@utility display {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+/* Underline that draws in from the left on hover */
+@utility underline-draw {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.15em;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-sacred);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Cormorant ships old-style (text) figures by default — lovely in prose,
+   wrong for money, where "3,100" comes out with digits at three different
+   heights. Any number the user has to read as a value gets this. */
+@utility nums {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+
+/* Section backgrounds built from poster frames */
+@utility poster-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Hide scrollbar on horizontal card rails */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* background-attachment: fixed is a scroll-jank tax on mobile and is
+     ignored by iOS Safari entirely — desktop only. */
+  @media (min-width: 1024px) {
+    .bg-parallax {
+      background-attachment: fixed;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION — posters and fades only
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .bg-parallax {
+    background-attachment: scroll;
+  }
+}
